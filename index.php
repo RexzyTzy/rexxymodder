@@ -2,11 +2,11 @@
 session_start();
 require_once 'config.php';
 
-// Password encrypted dengan password_hash
-$correct_password_hash = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';
+// Password tanpa encrypt
+$correct_password = 'rexxyXnoah';
 
 if (isset($_POST['password'])) {
-    if (password_verify($_POST['password'], $correct_password_hash)) {
+    if ($_POST['password'] === $correct_password) {
         $_SESSION['user_logged_in'] = true;
         header('Location: home.php');
         exit;
