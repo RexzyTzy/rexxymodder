@@ -8,6 +8,7 @@ $correct_password = 'rexxyXnoah';
 if (isset($_POST['password'])) {
     if ($_POST['password'] === $correct_password) {
         $_SESSION['user_logged_in'] = true;
+        $_SESSION['user_name'] = 'Member';
         header('Location: home.php');
         exit;
     } else {
@@ -19,87 +20,23 @@ if (isset($_POST['password'])) {
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Share MonetLoader SAMP by Rexxy</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        .login-box {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .login-box h1 {
-            color: #00d4ff;
-            margin-bottom: 10px;
-            font-size: 28px;
-        }
-        .login-box p {
-            color: #aaa;
-            margin-bottom: 30px;
-        }
-        .login-box input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 8px;
-            background: rgba(255,255,255,0.1);
-            color: white;
-            font-size: 16px;
-            box-sizing: border-box;
-        }
-        .login-box input::placeholder {
-            color: #888;
-        }
-        .login-box button {
-            width: 100%;
-            padding: 12px;
-            background: #00d4ff;
-            border: none;
-            border-radius: 8px;
-            color: #1a1a2e;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .login-box button:hover {
-            background: #00a8cc;
-            transform: translateY(-2px);
-        }
-        .error {
-            color: #ff6b6b;
-            margin-top: 10px;
-        }
-        .logo {
-            font-size: 60px;
-            margin-bottom: 10px;
-        }
-    </style>
 </head>
-<body>
-    <div class="login-box">
-        <div class="logo">🔒</div>
-        <h1>Share MonetLoader SAMP</h1>
-        <p>by Rexxy</p>
+<body class="login-page">
+    <div class="login-box animate-fade">
+        <div class="logo-icon">🔐</div>
+        <h1>Share MonetLoader</h1>
+        <p class="subtitle">SAMP by Rexxy</p>
         <form method="POST">
-            <input type="password" name="password" placeholder="Masukkan Password..." required>
-            <button type="submit">Masuk</button>
+            <input type="password" name="password" placeholder="Masukkan Password..." required autocomplete="off">
+            <button type="submit">🔓 Masuk ke Website</button>
         </form>
-        <?php if (isset($error)) echo "<p class='error'>$error</p>"; ?>
+        <?php if (isset($error)) echo "<div class='alert alert-error' style='margin-top:15px;'>❌ $error</div>"; ?>
+        <div class="login-footer">
+            <p>🔒 Website Private • Rexxy & Team</p>
+        </div>
     </div>
 </body>
 </html>

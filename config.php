@@ -1,23 +1,14 @@
 <?php
-// Railway.com Database Configuration
-// Menggunakan environment variables dari Railway
+// Database Configuration - Share MonetLoader SAMP by Rexxy
+// Host: 51.83.49.125:3306
+// Database: s174775_rexxy
 
-$db_host = getenv('MYSQLHOST') ?: '51.83.49.125:3306';
-$db_user = getenv('MYSQLUSER') ?: 'u174775_77g2SLPAdI';
-$db_pass = getenv('MYSQLPASSWORD') ?: 'i+Ut4wB1QSL+yxWUGkrvU=NU';
-$db_name = getenv('MYSQLDATABASE') ?: 's174775_rexxy';
+define('DB_HOST', '51.83.49.125:3306');
+define('DB_USER', 'u174775_77g2SLPAdI');
+define('DB_PASS', 'i+Ut4wB1QSL+yxWUGkrvU=NU');
+define('DB_NAME', 's174775_rexxy');
 
-// Railway format: mysql://user:pass@host:port/database
-$mysql_url = getenv('MYSQL_URL');
-if ($mysql_url) {
-    $parsed = parse_url($mysql_url);
-    $db_host = $parsed['host'] . ':' . ($parsed['port'] ?? '3306');
-    $db_user = $parsed['user'];
-    $db_pass = $parsed['pass'];
-    $db_name = ltrim($parsed['path'], '/');
-}
-
-$conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
@@ -41,6 +32,34 @@ $conn->query("CREATE TABLE IF NOT EXISTS admin (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)");
+
+// Tabel request file
+$conn->query("CREATE TABLE IF NOT EXISTS requests (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_name VARCHAR(100) NOT NULL,
+    request_text TEXT NOT NULL,
+    status ENUM('pending','approved','rejected') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)");
+
+// Tabel report bug
+$conn->query("CREATE TABLE IF NOT EXISTS reports (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_name VARCHAR(100) NOT NULL,
+    bug_type VARCHAR(50) NOT NULL,
+    description TEXT NOT NULL,
+    status ENUM('open','in_progress','resolved','closed') DEFAULT 'open',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)");
+
+// Tabel activity log
+$conn->query("CREATE TABLE IF NOT EXISTS activity_log (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_name VARCHAR(100),
+    action VARCHAR(255) NOT NULL,
+    ip_address VARCHAR(45),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )");
 ?>
